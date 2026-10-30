@@ -137,7 +137,7 @@ agentic AI framework**
 
 Matteo Maspero¹, Mianyong Ding²˒¹, Enrica Seravalli¹, Geert O.R. Janssens¹˒², Bianca A.W. Hoeben¹
 
-¹ Radiotherapy, UMC Utrecht, Utrecht, the Netherlands
+¹ Radiotherapy, UMC Utrecht, Utrecht, the Netherlands<br>
 ² Princess Máxima Center for Pediatric Oncology, Utrecht, the Netherlands
 
 If you use this code, please cite the abstract (reference to follow once it is published) and the models it
