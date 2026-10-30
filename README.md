@@ -128,6 +128,21 @@ with an agentic AI framework (Claude Code, Anthropic), supervised by a physicist
 so v1 is unchanged voxel for voxel, and v2 was run on a TBI cohort to expose failure modes. These validation
 scripts run on the clinical data in-house and are not part of this repository.
 
+## Publication
+
+This work has been submitted as an abstract to ESTRO 2027 (Milan, 21-25 May 2027):
+
+**Open-source whole-body models for total marrow irradiation contouring: physician-in-the-loop refinement with an
+agentic AI framework**
+
+Matteo Maspero¹, Mianyong Ding²˒¹, Enrica Seravalli¹, Geert O.R. Janssens¹˒², Bianca A.W. Hoeben¹
+
+¹ Radiotherapy, UMC Utrecht, Utrecht, the Netherlands
+² Princess Máxima Center for Pediatric Oncology, Utrecht, the Netherlands
+
+If you use this code, please cite the abstract (reference to follow once it is published) and the models it
+builds on (references 1 and 2).
+
 ## References
 
 1. Wasserthal J, et al. TotalSegmentator: robust segmentation of 104 anatomic structures in CT images.
