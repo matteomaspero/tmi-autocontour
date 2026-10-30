@@ -132,8 +132,7 @@ scripts run on the clinical data in-house and are not part of this repository.
 
 This work has been submitted as an abstract to ESTRO 2027 (Milan, 21-25 May 2027):
 
-**Open-source whole-body models for total marrow irradiation contouring: physician-in-the-loop refinement with an
-agentic AI framework**
+**Open-source whole-body models for total marrow irradiation contouring: physician-in-the-loop refinement with an agentic AI framework**
 
 Matteo Maspero¹, Mianyong Ding²˒¹, Enrica Seravalli¹, Geert O.R. Janssens¹˒², Bianca A.W. Hoeben¹
 
