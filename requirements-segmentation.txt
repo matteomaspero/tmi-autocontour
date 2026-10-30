@@ -1,0 +1,5 @@
+# step 1 (segmentation/segment_case.py), CUDA machine; versions as used 10-2026
+TotalSegmentator==2.18.0
+nnunetv2==2.8.1
+torch==2.8.0
+SimpleITK==2.5.6

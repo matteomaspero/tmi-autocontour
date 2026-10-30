@@ -1,0 +1,22 @@
+# never commit patient data or outputs
+*.dcm
+*.nii
+*.nii.gz
+*.gipl
+*.mha
+*.nrrd
+*.partial
+TMLI_auto_*/
+nifti/
+segmentations/
+nni/
+data/
+output*/
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.idea/
+.vscode/
+~$*

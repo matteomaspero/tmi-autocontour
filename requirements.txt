@@ -1,0 +1,8 @@
+# step 2 (build_case.py); versions as tested 10-2026
+numpy>=2.0
+scipy>=1.13
+SimpleITK>=2.4
+pydicom>=3.0
+rt-utils>=1.2.7
+opencv-python-headless>=4.8
+matplotlib>=3.8
