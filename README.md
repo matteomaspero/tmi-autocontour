@@ -21,6 +21,7 @@ set with a rule-based **recipe**. No model is retrained: the recipe works on the
 | --- | --- | --- | --- |
 | 1 | GPU machine | `segmentation/segment_case.py` | one NIfTI per CT series; TotalSegmentator tasks `total` + `head_glands_cavities` (optionally `craniofacial_structures`, `breasts`); the pediatric abdominal nnU-Net of [PedAbdSeg](https://github.com/MMianyong/-PedAbdSeg-) (Dataset201) |
 | 1b | GPU machine, optional | `nninteractive/PROMPTS.md` | [nnInteractive-agent](https://github.com/MIC-DKFZ/nninteractive-agent) for structures no model gives. **Not validated** |
+| 1c | any machine, optional | `segmentation/head_oois_cads.py` | brainstem, cochleae, chiasm, pituitary and lacrimal glands from the CT-only head-and-neck nnU-Net of [CADS](https://github.com/murong-xu/CADS) (model 558), as NIfTI masks on the head-first scan. Not merged into the RTSTRUCT |
 | 2 | any machine | `build_case.py` | match each NIfTI to its clinical DICOM series pixel for pixel, build v1 and/or v2, write and verify the RTSTRUCTs, overview pictures and a report |
 | 3 | clinic | | import the RTSTRUCT next to the CT, then review, edit and approve |
 
@@ -45,6 +46,31 @@ pelvis). Each part is handled as its own volume, and each gets its own RTSTRUCT.
 
 Not produced, so they still need manual contouring: brainstem, chiasm, pituitary, cochlea, oral cavity, larynx,
 lacrimal glands, breasts, axillary nodes, testes, rectum, anal canal, and the deep lobe of the parotid.
+
+### Head organs of interest from CADS (optional step 1c)
+
+`segmentation/head_oois_cads.py` takes brainstem, cochleae, chiasm, pituitary and lacrimal glands from CADS model
+558, a CT-only nnU-Net. It crops the head-first CT from the brain to the thyroid (TotalSegmentator classes, +15 mm),
+runs nnU-Net v2 on the crop, and writes one mask per structure on the CT grid of the other models, with a volume and
+left/right check in `head_oois_cads.csv`. These masks are not part of the v2 RTSTRUCT.
+
+In-house tests (02-11-2026, research weights) against clinical contours:
+
+- **Eight pediatric head CTs:** median Dice 0.78 for the brainstem, 0.57 for the cochlea and 0.48 for the pituitary.
+  The chiasm failed.
+- **One prospective TMI patient:** brainstem 0.78, but cochlea, pituitary and lacrimal glands only 0.28 or lower.
+
+The open weights did worse on the cochlea. Treat the brainstem as a draft and the other structures as a starting
+point at most.
+
+```bash
+python segmentation/head_oois_cads.py --nifti <work>/nifti/P001/20260101/CT_2.nii.gz \
+    --ts <work>/segmentations/totalsegmentator/total/P001_20260101_CT_2 \
+    --weights <folder holding Dataset558_OAR258> --out <output folder> [--device cuda]
+```
+
+The crop is written in RAS voxel order, as CADS' own preprocessing does. Plain `nnUNetv2_predict` does not
+reorient, and on a crop in DICOM order the model returns next to nothing.
 
 ## Install
 
@@ -119,6 +145,8 @@ This repository contains no model weights. Check each license before clinical us
 - TotalSegmentator: code under Apache-2.0; some tasks have their own license terms (see its README).
 - PedAbdSeg: see [its repository](https://github.com/MMianyong/-PedAbdSeg-).
 - nnInteractive: the weights are CC BY-NC-SA 4.0 (non-commercial).
+- CADS model 558: two sets of weights in its releases, "research" (CC BY-NC-SA 4.0, non-commercial) and "open"
+  (CC BY-SA 4.0).
 
 ## How the recipe was developed
 
@@ -140,7 +168,7 @@ Matteo Maspero¹, Mianyong Ding²˒¹, Enrica Seravalli¹, Geert O.R. Janssens¹
 ² Princess Máxima Center for Pediatric Oncology, Utrecht, the Netherlands
 
 If you use this code, please cite the abstract (reference to follow once it is published) and the models it
-builds on (references 1 and 2).
+builds on (references 1 and 2, and 3 for step 1c).
 
 ## References
 
@@ -148,6 +176,8 @@ builds on (references 1 and 2).
    Radiol Artif Intell 2023;5:e230024.
 2. Ding M, et al. Deep learning-based auto-contouring of organs/structures-at-risk for pediatric upper abdominal
    radiotherapy. Radiother Oncol 2025;208:110914.
+3. Xu M, et al. CADS: a comprehensive anatomical dataset and segmentation for whole-body anatomy in computed
+   tomography. arXiv 2025;2507.22953.
 
 ## License
 
